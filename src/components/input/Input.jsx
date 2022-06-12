@@ -6,6 +6,9 @@ const Input = ({
   labelClassName,
   className,
   name,
+  required = false,
+  pattern,
+  title,
   type,
   placeholder,
   onChange,
@@ -13,14 +16,20 @@ const Input = ({
   disabled = false,
 }) => {
   return (
-    <div className="input d-flex justify-content-center flex-wrap m-1">
-      <label className={`label ${labelClassName}`} htmlFor={name}>
+    <div className="input d-flex justify-content-between flex-wrap m-1">
+      <label
+        className={`label w-50 h5 d-flex justify-content-end ${labelClassName}`}
+        htmlFor={name}
+      >
         {label}
       </label>
       <input
         className={`${className} input mx-2`}
         value={value}
         type={type}
+        pattern={pattern}
+        required={required}
+        title={title}
         name={name}
         placeholder={placeholder}
         onChange={(e) => onChange(e, changingState)}
@@ -30,20 +39,36 @@ const Input = ({
   );
 };
 
-const SelectInput = ({ options, labelClassName, name, label, setInput }) => {
+const SelectInput = ({
+  options,
+  labelClassName,
+  className,
+  name,
+  selected,
+  required = false,
+  label,
+  setInput,
+}) => {
   return (
-    <div className="input w-100 d-flex justify-content-center flex-wrap m-1">
-      <div>
-        <label className={`label h5 ${labelClassName}`} htmlFor={name}>
-          {label}
-        </label>
-      </div>
-      <div>
+    <div className="input d-flex justify-content-between flex-wrap m-1">
+      <label
+        className={`label h5 w-50 d-flex justify-content-end ${labelClassName}`}
+        htmlFor={name}
+      >
+        {label}
+      </label>
+      <div className="w-50">
         <select
+          className={`${className} input w-50 h-100 mx-2`}
           onChange={(e) => {
             setInput(e.target.value);
           }}
+          value={selected}
+          required={required}
         >
+          <option value="" disabled>
+            Select your option
+          </option>
           {options?.map((value) => {
             return (
               <option key={value} value={value}>
