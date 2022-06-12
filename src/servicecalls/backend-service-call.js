@@ -1,10 +1,27 @@
-// const backendUrl = "http://localhost:8080"
+import axios from "axios";
 
-const saveDetails=(details)=>{
-    console.log("Details => ",details);
-}
-const getDetails=(email)=>{
-    console.log("Details => ",email);
-}
+const backendUrl = "http://localhost:8080";
 
-export {saveDetails,getDetails}
+const saveDetails = async (details) => {
+  console.log("Details => ", details);
+  return axios.post(`${backendUrl}/saveDetails`,details).then((resp)=>{
+      return resp.data;
+  }).catch((err)=>{
+      console.log(err);
+      return false
+  })
+};
+const getDetails = async (email) => {
+  console.log("Details => ", email);
+  return axios
+    .get(`${backendUrl}/details/${email}`)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      console.log(err);
+      return false;
+    });
+};
+
+export { saveDetails, getDetails };

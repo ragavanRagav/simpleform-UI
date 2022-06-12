@@ -1,19 +1,23 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Input, SelectInput } from "../../components";
 import { saveDetails } from "../../servicecalls/backend-service-call";
 import { isNullish } from "../../servicecalls/utilities";
 
 const GatherDetails = () => {
+  let navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [country, setCountry] = useState("");
   const [noTravelers, setNoTravelers] = useState("");
   const [budget, setBudget] = useState("");
+  const [loading, setLoading] = useState(false);
   const onChange = (e, state) => {
     state(e.target.value);
   };
-  const onSubmit=(e)=>{
+  const onSubmit=async (e)=>{
     e.preventDefault();
+    setLoading(true)
     const data={
       name,
       email,
@@ -22,11 +26,13 @@ const GatherDetails = () => {
       budget
     }
     if(!isNullish(data)){
-      console.log(isNullish(data));
-      saveDetails(data)
+      const resp = await saveDetails(data);
+      alert(resp.message);
+      navigate("/details/"+email);
     }else{
       alert("Validation error")
     }
+    setLoading(false)
   }
 
   const countriesOption = ["India", "Africa", "Europe"];
@@ -94,7 +100,7 @@ const GatherDetails = () => {
           placeholder={"Budget per person"}
         />
         <div>
-          <button className="w-25 btn btn-danger" type="submit">Submit</button>
+          <button className="w-25 btn btn-danger" disabled={loading} type="submit">Submit</button>
         </div>
       </form>
     </div>

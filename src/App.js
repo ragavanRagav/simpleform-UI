@@ -9,7 +9,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<GatherDetails />} />
-          <Route path="/user/:email" element={<ShowDetails />} />
+          <Route path="/details/:email" element={<ShowDetails />} />
         </Routes>
       </BrowserRouter>
     </div>
